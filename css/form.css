@@ -160,6 +160,10 @@ body {
   .btn-danger:active:hover {
     background-color: #921e12;
   }
+
+  .myPDbuttons{
+    padding: 20%;
+  }
   
   .btn-info {
     background-color: #3498db;
@@ -654,4 +658,6 @@ body {
     }
   }
   
-  
+  .center{
+    align-items: center;
+  }

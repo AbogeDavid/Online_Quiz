@@ -1,7 +1,7 @@
 * {box-sizing: border-box;}
 
 body { 
-  background-color: #0b9164;
+  background-color: #ca7abd;
   margin: 0;
   font-family: Noto Sans;
 }
@@ -45,6 +45,68 @@ body {
 .panel{
   border-color:rgb(0, 0, 0);
   margin:40px;
-  padding:20px;
+  padding:40px;
   font: 15px "Noto Sans";
+  text-align: center;
   }
+
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .start, .quiz, .summary {
+        text-align: center;
+        margin: 20px auto;
+        max-width: 600px;
+        background-color: skyblue;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn, .sub, .proceed, .rst {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 10px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #007bff;
+        border: 1px solid #007bff;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn:hover, .sub:hover, .proceed:hover, .rst:hover {
+        background-color: #3c6086;
+        border: 1px solid #2c629c;
+    }
+
+    .quiz p {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .answer {
+        width: 80%;
+        padding: 8px;
+        margin-bottom: 15px;
+    }
+
+    #proceedBtn {
+        background-color: #28a745;
+        border: 1px solid #28a745;
+    }
+
+    #proceedBtn:hover {
+        background-color: #218838;
+        border: 1px solid #218838;
+    }
+
+    .summary p {
+        font-size: 18px;
+    }
+

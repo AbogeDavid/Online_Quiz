@@ -1,4 +1,8 @@
 <?php
+  error_reporting(E_ALL);
+  ini_set('display_errors', '1');
+  //var_dump($type);
+  
   include_once 'database.php';
   session_start();
   $email=$_SESSION['email'];
@@ -33,22 +37,49 @@
       header("location:dashboard.php?q=5");
     }
   }
+if (isset($_SESSION['key'])) {
+    if (@$_GET['q'] == 'addquiz' && $_SESSION['key'] == 'admin') {
+        $name = $_POST['name'];
+        $name = ucwords(strtolower($name));
+        $total = $_POST['total'];
+        $sahi = $_POST['right'];
+        $wrong = $_POST['wrong'];
+        $type = $_POST['type'];
+        $eid = uniqid();
 
-  if(isset($_SESSION['key']))
-  {
-    if(@$_GET['q']== 'addquiz' && $_SESSION['key']=='admin') 
-    {
-      $name = $_POST['name'];
-      $name= ucwords(strtolower($name));
-      $total = $_POST['total'];
-      $sahi = $_POST['right'];
-      $wrong = $_POST['wrong'];
-      $id=uniqid();
-      $q3=mysqli_query($con,"INSERT INTO quiz VALUES  ('$id','$name' , '$sahi' , '$wrong','$total', NOW())");
-      header("location:dashboard.php?q=4&step=2&eid=$id&n=$total");
+        // Insert quiz details
+        $q3 = mysqli_query($con, "INSERT INTO quiz (eid, title, sahi, wrong, total, date, type) VALUES ('$eid', '$name', '$sahi', '$wrong', '$total', NOW(), '$type')");
+
+        // Check if quiz details inserted successfully
+        if ($q3) {
+            // Redirect to add questions page for the new quiz
+            header("location:dashboard.php?q=4&step=2&eid=$eid&n=$total&type=$type");
+        } else {
+            // Handle insertion error
+            echo "Error inserting quiz details: " . mysqli_error($con);
+        }
     }
-  }
+}
+  //var_dump($q3);
+  if (isset($_SESSION['key'])) {
+    if (@$_GET['q'] == 'editqns' && $_SESSION['key'] == 'admin') {
+        $eid = @$_GET['eid'];
 
+        // Fetch quiz details
+        $quizResult = mysqli_query($con, "SELECT * FROM quiz WHERE id = '$eid'") or die('Error fetching quiz details');
+        $quizRow = mysqli_fetch_array($quizResult);
+        $name = $quizRow['title'];
+        $total = $quizRow['sahi'];
+        $wrong = $quizRow['wrong'];
+        $total_questions = $quizRow['total'];
+        $date = $quizRow['date'];
+
+        // Fetch existing questions for the quiz
+        $quizQuestionsResult = mysqli_query($con, "SELECT * FROM questions WHERE quiz_id = '$eid'") or die('Error fetching quiz questions');
+
+        header("location:dashboard.php?q=4&step=2&eid=$eid&n=$total_questions");
+    }
+}
   if(isset($_SESSION['key']))
   {
     if(@$_GET['q']== 'addqns' && $_SESSION['key']=='admin') 
@@ -84,7 +115,7 @@
         }
         $qans=mysqli_query($con,"INSERT INTO answer VALUES  ('$qid','$ansid')");
       }
-      header("location:dashboard.php?q=0");
+      header("location:dashboard.php?q=4");
     }
   }
 
@@ -175,27 +206,6 @@
     }
   }
 
-  if(@$_GET['q']== 'quizre' && @$_GET['step']== 25 ) 
-  {
-    $eid=@$_GET['eid'];
-    $n=@$_GET['n'];
-    $t=@$_GET['t'];
-    $q=mysqli_query($con,"SELECT score FROM history WHERE eid='$eid' AND email='$email'" )or die('Error156');
-    while($row=mysqli_fetch_array($q) )
-    {
-      $s=$row['score'];
-    }
-    $q=mysqli_query($con,"DELETE FROM `history` WHERE eid='$eid' AND email='$email' " )or die('Error184');
-    $q=mysqli_query($con,"SELECT * FROM rank WHERE email='$email'" )or die('Error161');
-    while($row=mysqli_fetch_array($q) )
-    {
-      $sun=$row['score'];
-    }
-    $sun=$sun-$s;
-    $q=mysqli_query($con,"UPDATE `rank` SET `score`=$sun ,time=NOW() WHERE email= '$email'")or die('Error174');
-    header("location:welcome.php?q=quiz&step=2&eid=$eid&n=1&t=$t");
-  }
-?>
 
 
 

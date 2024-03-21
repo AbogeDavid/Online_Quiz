@@ -32,7 +32,8 @@
             $_SESSION["name"] = 'Admin';
             $_SESSION["key"] ='admin';
             $_SESSION["email"] = $email;
-            header("location:dashboard.php?q=0");
+            header("location:dashboard.php?q=1");
+            echo "<center><h3><script>alert('Welcome to the admin page');</script></h3></center>";
         }
         else
         {
